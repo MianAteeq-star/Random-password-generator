@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
+import { message } from "antd";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 function App() {
   const [length, setLength] = useState(8);
@@ -6,6 +7,8 @@ function App() {
   const [numChecked,setNumChecked] = useState(false)
   const [password, setPassword] = useState("")
 
+
+  const passwordRefrence = useRef()
 
   const passwordGenerator= useCallback(()=>{
      let total=""
@@ -33,8 +36,10 @@ passwordGenerator()
   },[length,numChecked,charChecked,passwordGenerator   ])
 
   const copyOnClipboard= useCallback(()=>{
-
+passwordRefrence.current?.select()
     window.navigator.clipboard.writeText(password)
+
+    message.success("Password Copy on clipBoard")
   },[password])
   
 
@@ -50,6 +55,7 @@ passwordGenerator()
             type="text"
             placeholder="Password"
           value={password}
+          ref={passwordRefrence}
             className="p-2 rounded outline-none w-full"
             readOnly
           />
